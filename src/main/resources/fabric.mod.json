@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "blockghosting",
+  "version": "${version}",
+
+  "name": "Block Ghosting",
+  "description": "This mod allows for ignoring block collision, when attempting to interact with blocks.",
+  "authors": [
+    "p4"
+  ],
+  "contact": {
+    "homepage": "https://p4rty4nimAl.github.io/",
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/blockghosting/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.p4.blockghosting.BlockGhosting"
+    ]
+  },
+  "mixins": [
+    "blockghosting.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
