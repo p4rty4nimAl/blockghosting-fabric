@@ -1,4 +1,0 @@
-make command shorter // DONE // error handling died for shortened?
-gui // ETA: never lmao
-renderer for empty farmland // ETA: next????
-only on certain side // ETA: soon maybe?
