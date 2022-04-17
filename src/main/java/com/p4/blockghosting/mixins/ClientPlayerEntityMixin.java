@@ -30,11 +30,16 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
     public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) {
         super(world, profile);
     }
-    private Vec3d playerPos;
-    private int tick;
+    private Vec3d playerPos = new Vec3d(0, 0, 0);
+    //private int tick;
     private final ArrayList<BlockPos> highlightList = new ArrayList<>();
     //change cycle speed
-    private static final int cycle = 1;
+    //private static final int cycle = 1;
+
+    private boolean compareFlooredPos(Vec3d pos1, Vec3d pos2) {
+        if (pos1 == null || pos2 == null) return true;
+        return (Math.floor(pos1.getX()) == Math.floor(pos2.getX())) && (Math.floor(pos1.getY()) == Math.floor(pos2.getY())) && (Math.floor(pos1.getZ()) == Math.floor(pos2.getZ()));
+    }
 
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     private void onSendChatMessage(String message, CallbackInfo ci) {
@@ -52,13 +57,15 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
     }
     @Inject(method = "tick", at = @At("HEAD"))
     private void onTick(CallbackInfo ci) {
+        /*
+        CYCLE IMPLEMENTATION // cycle = 1, so useless
         tick++;
         if (tick != cycle) return;
         tick = 0;
-        BlockPos.Mutable currentBlock = new BlockPos.Mutable();
+        */
+        if (!farmlandRender) return;
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        World world = MinecraftClient.getInstance().world;
-        if (player == null || !farmlandRender) return;
+        if (player == null) return;
         if (playerPos != player.getPos() || invalidateCache) {
             invalidateCache = false;
             highlightList.clear();
@@ -67,6 +74,9 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
             int minX = (int) Math.floor(player.getX()) - 4;
             int minY = (int) Math.ceil(player.getY()) - 3;
             int minZ = (int) Math.floor(player.getZ()) - 4;
+
+            BlockPos.Mutable currentBlock = new BlockPos.Mutable();
+            World world = MinecraftClient.getInstance().world;
 
             for (int x = 0; x < 9; x++) {
                 for (int y = 0; y < 5; y++) {
@@ -83,7 +93,7 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
             }
         }
         for (BlockPos blockPos : highlightList) {
-            add(Layer.ON_TOP, new Square(blockPos, 0xFFFFFF), new Square(blockPos, 0xFFFFFF), cycle);
+            add(Layer.ON_TOP, new Square(blockPos, 0xFFFFFF), new Square(blockPos, 0xFFFFFF), 1);//cycle);
         }
     }
 }

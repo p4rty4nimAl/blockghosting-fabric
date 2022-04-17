@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(OptionsScreen.class)
-//TODO: add back to mixin file - currently disabled for public building
+//TODO: add back to mixin file - currently disabled for public builds
 public class OptionsScreenMixin extends Screen {
 
     protected OptionsScreenMixin(Text title) {
