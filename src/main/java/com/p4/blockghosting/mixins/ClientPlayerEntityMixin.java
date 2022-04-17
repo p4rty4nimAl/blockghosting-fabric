@@ -31,9 +31,9 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
         super(world, profile);
     }
     private Vec3d playerPos = new Vec3d(0, 0, 0);
-    //private int tick;
     private final ArrayList<BlockPos> highlightList = new ArrayList<>();
     //change cycle speed
+    //private int tick;
     //private static final int cycle = 1;
 
     private boolean compareFlooredPos(Vec3d pos1, Vec3d pos2) {
@@ -66,21 +66,44 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
         if (!farmlandRender) return;
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player == null) return;
-        if (playerPos != player.getPos() || invalidateCache) {
+        if (compareFlooredPos(playerPos, player.getPos()) || invalidateCache) {
+            int dirX = 0;
+            int dirZ = 0;
+            int xLimit = 9;
+            int zLimit = 9;
             invalidateCache = false;
-            highlightList.clear();
-            playerPos = player.getPos();
 
             int minX = (int) Math.floor(player.getX()) - 4;
             int minY = (int) Math.ceil(player.getY()) - 3;
             int minZ = (int) Math.floor(player.getZ()) - 4;
 
-            BlockPos.Mutable currentBlock = new BlockPos.Mutable();
-            World world = MinecraftClient.getInstance().world;
+            if (playerPos.y == player.getY()) {
+                if (Math.floor(playerPos.x) > Math.floor(player.getX())) {
+                    //moving neg x
+                    xLimit = 1;
+                } else if (Math.floor(playerPos.x) < Math.floor(player.getX())) {
+                    //moving pos x
+                    dirX = 8;
+                    xLimit = 9;
+                }
+                if (Math.floor(playerPos.z) > Math.floor(player.getZ())) {
+                    //moving neg z
+                    zLimit = 1;
+                } else if (Math.floor(playerPos.z) < Math.floor(player.getZ())) {
+                    //moving pos z
+                    dirZ = 8;
+                    zLimit = 9;
+                }
+            }
 
-            for (int x = 0; x < 9; x++) {
+            highlightList.clear();
+            playerPos = player.getPos();
+            World world = MinecraftClient.getInstance().world;
+            BlockPos.Mutable currentBlock = new BlockPos.Mutable();
+
+            for (int x = dirX; x < xLimit; x++) {
                 for (int y = 0; y < 5; y++) {
-                    for (int z = 0; z < 9; z++) {
+                    for (int z = dirZ; z < zLimit; z++) {
                         currentBlock.set(minX + x, minY + y, minZ + z);
                         if (world.getBlockState(currentBlock).isOf(Blocks.FARMLAND)) {
                             currentBlock.set(minX + x, minY + y + 1, minZ + z);
@@ -91,6 +114,10 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
                     }
                 }
             }
+            dirX = 0;
+            dirZ = 0;
+            xLimit = 9;
+            zLimit = 9;
         }
         for (BlockPos blockPos : highlightList) {
             add(Layer.ON_TOP, new Square(blockPos, 0xFFFFFF), new Square(blockPos, 0xFFFFFF), 1);//cycle);
