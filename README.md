@@ -1,2 +1,2 @@
 # blockghosting-fabric
- minecraft mod for fabric - messes with hand collisions, also has farming related additions
+ Simple Fabric mod with many features for modifying interaction when placing and breaking blocks.
