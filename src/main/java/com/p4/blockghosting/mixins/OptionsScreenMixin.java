@@ -1,6 +1,6 @@
 package com.p4.blockghosting.mixins;
 
-import com.p4.blockghosting.screen.BaseBlockGhostingScreen;
+import com.p4.blockghosting.screen.TogglesScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(OptionsScreen.class)
-//TODO: add back to mixin file - currently disabled for public builds
 public class OptionsScreenMixin extends Screen {
 
     protected OptionsScreenMixin(Text title) {
@@ -27,7 +26,7 @@ public class OptionsScreenMixin extends Screen {
                 150,
                 20,
                 new LiteralText("Block Ghosting"),
-                click -> this.client.setScreen(new BaseBlockGhostingScreen(new OptionsScreen(null, this.client.options)))
-        ));
+                click -> this.client.setScreen(new TogglesScreen(new OptionsScreen(null, this.client.options))
+        )));
     }
 }

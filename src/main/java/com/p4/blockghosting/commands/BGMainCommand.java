@@ -19,7 +19,7 @@ import java.util.Arrays;
 import static com.mojang.brigadier.arguments.IntegerArgumentType.getInteger;
 import static com.p4.blockghosting.CommandHandler.addClientSideCommand;
 import static com.p4.blockghosting.ConfigInit.*;
-import static com.p4.blockghosting.randomUtils.isBetweenCoords;
+import static com.p4.blockghosting.RandomUtils.isBetweenCoords;
 import static net.minecraft.command.argument.BlockPosArgumentType.getBlockPos;
 import static net.minecraft.command.argument.BlockStateArgumentType.getBlockState;
 import static net.minecraft.server.command.CommandManager.argument;

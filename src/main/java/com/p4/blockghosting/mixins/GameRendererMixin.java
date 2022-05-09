@@ -1,6 +1,5 @@
 package com.p4.blockghosting.mixins;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.p4.blockghosting.render.RenderQueue;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
@@ -23,9 +22,7 @@ public abstract class GameRendererMixin {
 
         Vec3d cameraPos = camera.getPos();
         matrixStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-        RenderSystem.disableDepthTest();
         RenderQueue.render(RenderQueue.Layer.ON_TOP, matrixStack, delta);
-        RenderSystem.enableDepthTest();
 
         matrixStack.pop();
     }

@@ -3,7 +3,7 @@ package com.p4.blockghosting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public class randomUtils {
+public class RandomUtils {
     @SuppressWarnings("SpellCheckingInspection")
     public static boolean isBetweenCoords(BlockPos pos1, BlockPos pos2, BlockPos query) {
         int[] xCoords = {Math.min(pos1.getX(), pos2.getX()), Math.max(pos1.getX(), pos2.getX())};

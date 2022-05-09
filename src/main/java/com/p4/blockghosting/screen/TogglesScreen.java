@@ -1,28 +1,36 @@
 package com.p4.blockghosting.screen;
 
 import com.p4.blockghosting.ConfigInit;
-import com.p4.blockghosting.screen.widget.ScrollMenu;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
-public class TogglesScreen extends BaseBlockGhostingScreen {
-    private final ScrollMenu scrollMenu;
-    public TogglesScreen(Screen prevScreen) {
-        super(prevScreen);
-        this.scrollMenu = new ScrollMenu();
-    }
-    @Override
-    public void addWidgets() {
-        this.addDrawableChild(new ButtonWidget(
-                this.width / 2 + 90,
-                10,
-                0,
-                0,
-                new LiteralText("v"),
-                click -> {}));
+public class TogglesScreen extends Screen {
 
+    final Screen prevScreen;
+    private MatrixStack matrices;
+    public TogglesScreen(Screen prevScreen) {
+        super(new LiteralText(""));
+        this.prevScreen = prevScreen;
+    }
+    public void init() {
+        this.addDrawableChild(new ButtonWidget(
+                this.width / 2 - 135,
+                this.height - 40,
+                270,
+                20,
+                new LiteralText("Back"),
+                click -> this.client.setScreen(this.prevScreen))
+        );
+        this.addDrawableChild(new ButtonWidget(
+                this.width / 2 - 135,
+                20,
+                270,
+                20,
+                new LiteralText(" << Toggles >> "),
+                click -> {}
+        ));
         this.addDrawableChild(new ButtonWidget(
                 this.width / 2 + 65,
                 50,
@@ -80,12 +88,13 @@ public class TogglesScreen extends BaseBlockGhostingScreen {
                 }));
     }
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, delta);
-        drawStringWithShadow(matrices, this.textRenderer, "Block toggle:", this.width / 2 - 115 + scrollMenu.scrollX, 60 + scrollMenu.scrollY, 0xFFFFFF);
-        drawStringWithShadow(matrices, this.textRenderer, "Area toggle:", this.width / 2 - 115 + scrollMenu.scrollX, 85 + scrollMenu.scrollY, 0xFFFFFF);
-        drawStringWithShadow(matrices, this.textRenderer, "Break sugarcane toggle:", this.width / 2 - 115 + scrollMenu.scrollX, 110 + scrollMenu.scrollY, 0xFFFFFF);
-        drawStringWithShadow(matrices, this.textRenderer, "Break bamboo toggle:", this.width / 2 - 115 + scrollMenu.scrollX, 135 + scrollMenu.scrollY, 0xFFFFFF);
-        drawStringWithShadow(matrices, this.textRenderer, "Farmland rendering toggle:", this.width / 2 - 115 + scrollMenu.scrollX, 160 + scrollMenu.scrollY, 0xFFFFFF);
+        drawStringWithShadow(matrices, this.textRenderer, "Block toggle:", this.width / 2 - 115, 60, 0xFFFFFF);
+        drawStringWithShadow(matrices, this.textRenderer, "Area toggle:", this.width / 2 - 115, 85, 0xFFFFFF);
+        drawStringWithShadow(matrices, this.textRenderer, "Break sugarcane toggle:", this.width / 2 - 115, 110, 0xFFFFFF);
+        drawStringWithShadow(matrices, this.textRenderer, "Break bamboo toggle:", this.width / 2 - 115, 135, 0xFFFFFF);
+        drawStringWithShadow(matrices, this.textRenderer, "Farmland rendering toggle:", this.width / 2 - 115, 160, 0xFFFFFF);
 
     }
 }

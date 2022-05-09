@@ -16,13 +16,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import static com.p4.blockghosting.BlockGhosting.invalidateCache;
-import static com.p4.blockghosting.render.RenderQueue.*;
-
 import java.util.ArrayList;
 
+import static com.p4.blockghosting.BlockGhosting.invalidateCache;
 import static com.p4.blockghosting.ConfigInit.State.farmlandRender;
+import static com.p4.blockghosting.render.RenderQueue.*;
 
 @Mixin(ClientPlayerEntity.class)
 public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
@@ -32,9 +30,7 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
     }
     private Vec3d playerPos = new Vec3d(0, 0, 0);
     private final ArrayList<BlockPos> highlightList = new ArrayList<>();
-    //change cycle speed
-    //private int tick;
-    //private static final int cycle = 1;
+    private int tick;
 
     private boolean compareFlooredPos(Vec3d pos1, Vec3d pos2) {
         if (pos1 == null || pos2 == null) return true;
@@ -57,53 +53,22 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
     }
     @Inject(method = "tick", at = @At("HEAD"))
     private void onTick(CallbackInfo ci) {
-        /*
-        CYCLE IMPLEMENTATION // cycle = 1, so useless
-        tick++;
-        if (tick != cycle) return;
-        tick = 0;
-        */
         if (!farmlandRender) return;
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player == null) return;
-        if (compareFlooredPos(playerPos, player.getPos()) || invalidateCache) {
-            int dirX = 0;
-            int dirZ = 0;
-            int xLimit = 9;
-            int zLimit = 9;
+        if (compareFlooredPos(player.getPos(), playerPos) || invalidateCache) {
             invalidateCache = false;
 
             int minX = (int) Math.floor(player.getX()) - 4;
             int minY = (int) Math.ceil(player.getY()) - 3;
             int minZ = (int) Math.floor(player.getZ()) - 4;
 
-            if (playerPos.y == player.getY()) {
-                if (Math.floor(playerPos.x) > Math.floor(player.getX())) {
-                    //moving neg x
-                    xLimit = 1;
-                } else if (Math.floor(playerPos.x) < Math.floor(player.getX())) {
-                    //moving pos x
-                    dirX = 8;
-                    xLimit = 9;
-                }
-                if (Math.floor(playerPos.z) > Math.floor(player.getZ())) {
-                    //moving neg z
-                    zLimit = 1;
-                } else if (Math.floor(playerPos.z) < Math.floor(player.getZ())) {
-                    //moving pos z
-                    dirZ = 8;
-                    zLimit = 9;
-                }
-            }
-
-            highlightList.clear();
-            playerPos = player.getPos();
-            World world = MinecraftClient.getInstance().world;
             BlockPos.Mutable currentBlock = new BlockPos.Mutable();
+            World world = MinecraftClient.getInstance().world;
 
-            for (int x = dirX; x < xLimit; x++) {
+            for (int x = 0; x < 9; x++) {
                 for (int y = 0; y < 5; y++) {
-                    for (int z = dirZ; z < zLimit; z++) {
+                    for (int z = 0; z < 9; z++) {
                         currentBlock.set(minX + x, minY + y, minZ + z);
                         if (world.getBlockState(currentBlock).isOf(Blocks.FARMLAND)) {
                             currentBlock.set(minX + x, minY + y + 1, minZ + z);
@@ -114,13 +79,12 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
                     }
                 }
             }
-            dirX = 0;
-            dirZ = 0;
-            xLimit = 9;
-            zLimit = 9;
         }
         for (BlockPos blockPos : highlightList) {
-            add(Layer.ON_TOP, new Square(blockPos, 0xFFFFFF), new Square(blockPos, 0xFFFFFF), 1);//cycle);
+            Square square = new Square(blockPos, 0xFFFFFF);
+            add(Layer.ON_TOP, square, square, 2);//cycle);
         }
+        highlightList.clear();
+        playerPos = player.getPos();
     }
 }

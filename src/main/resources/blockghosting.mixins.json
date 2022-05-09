@@ -9,7 +9,8 @@
     "ClientPlayerEntityMixin",
     "ClientPlayNetworkHandlerMixin",
     "GameRendererMixin",
-    "MinecraftClientMixin"
+    "MinecraftClientMixin",
+    "OptionsScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

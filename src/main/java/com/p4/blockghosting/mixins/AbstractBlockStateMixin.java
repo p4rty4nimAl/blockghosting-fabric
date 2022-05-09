@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import static com.p4.blockghosting.BlockGhosting.ySubtraction;
 import static com.p4.blockghosting.ConfigInit.State.modAreaState;
 import static com.p4.blockghosting.ConfigInit.State.modBlockState;
-import static com.p4.blockghosting.randomUtils.isBetweenCoords;
+import static com.p4.blockghosting.RandomUtils.isBetweenCoords;
 
 @Mixin(AbstractBlockState.class)
 public class AbstractBlockStateMixin extends State<Block, BlockState>
