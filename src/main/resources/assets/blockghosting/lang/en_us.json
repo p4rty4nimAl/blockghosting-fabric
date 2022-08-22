@@ -1,0 +1,15 @@
+{
+  "blockghosting.block.add": "Added block(state) with value: %s",
+
+  "blockghosting.toggle.block": "Block toggle: ",
+  "blockghosting.toggle.area": "Area toggle: ",
+  "blockghosting.toggle.sugarcane": "Break sugarcane toggle: ",
+  "blockghosting.toggle.bamboo": "Break bamboo toggle: ",
+  "blockghosting.toggle.render.farmland": "Farmland rendering toggle:  ",
+  "blockghosting.toggle.header": "<< Toggles >>",
+  "blockghosting.toggle.enabled": "Enabled",
+  "blockghosting.toggle.disabled": "Disabled",
+
+  "blockghosting.screen.back": "Back",
+  "blockghosting.screen.bg": "Block Ghosting"
+}

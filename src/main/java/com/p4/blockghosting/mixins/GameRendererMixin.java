@@ -17,7 +17,7 @@ public abstract class GameRendererMixin {
     @Shadow @Final private Camera camera;
 
     @Inject(method = "renderWorld", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = {"ldc=hand"}))
-    private void renderWorldHand(float delta, long time, MatrixStack matrixStack, CallbackInfo ci) {
+    private void onRenderWorld(float delta, long time, MatrixStack matrixStack, CallbackInfo ci) {
         matrixStack.push();
 
         Vec3d cameraPos = camera.getPos();

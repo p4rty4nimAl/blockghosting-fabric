@@ -68,9 +68,11 @@ public class ConfigInit {
             Integer[] areaWhitelistInts = new Integer[areaWhiteListTempList.length];
             Integer[] areaBlacklistInts = new Integer[areaBlackListTempList.length];
             for (int i = 0; i < areaWhiteListTempList.length; i++) {
+                if (areaWhiteListTempList[i].equals("")) continue;
                 areaWhitelistInts[i] = Integer.valueOf(areaWhiteListTempList[i]);
             }
             for (int i = 0; i < areaBlackListTempList.length; i++) {
+                if (areaBlackListTempList[i].equals("")) continue;
                 areaBlacklistInts[i] = Integer.valueOf(areaBlackListTempList[i]);
             }
             for (int i = 0; i < areaWhitelistInts.length / 6; i++) {
